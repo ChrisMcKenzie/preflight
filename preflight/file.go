@@ -1,9 +1,13 @@
 package preflight
 
+// File ...
 type File struct {
-	Path    string
-	Source  string
-	Content string
+	Name      string
+	Action    string
+	Path      string
+	Source    string
+	Content   string
+	rawConfig map[string]interface{}
 
 	Attrs struct {
 		Owner       string

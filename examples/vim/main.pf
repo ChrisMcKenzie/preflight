@@ -1,8 +1,9 @@
 # vim: set ft=hcl:
 
 package "installed" "vim" {
-  name = "vim"
-  update = true
+  provider = "brew"
+
+  depends_on = ["${package.installed.vim}"]
 }
 
 file "exists" "vimrc" {

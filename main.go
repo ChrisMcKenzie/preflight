@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -15,12 +16,15 @@ func main() {
 		log.Println(err)
 	}
 
-	var checklist preflight.CheckList
-	err = hcl.Unmarshal(bytes, &checklist)
+	file, err := hcl.ParseBytes(bytes)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	checklist.Resolve()
+	cl, err := preflight.LoadHcl(file)
+	if err != nil {
+		fmt.Println(err)
+	}
+	cl.Resolve()
 }
