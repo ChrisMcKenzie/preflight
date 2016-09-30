@@ -14,7 +14,7 @@ task "homebrew" "install_vim" {
 }
 
 task "file" "create_vimrc" {
-  path = "${path.home}/.vimrc"
+  name = "${path.home}/.vimrc"
   source = "${path.module}/vimrc"
   state = "present"
 

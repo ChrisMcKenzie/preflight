@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -27,7 +28,8 @@ func main() {
 		fmt.Println(err)
 	}
 	for _, task := range cl.Tasks {
-		fmt.Printf("===== TASK: %s =====\n", task.Name)
+		b, _ := json.MarshalIndent(task.Config, "", "  ")
+		fmt.Printf("===== TASK: %s =====\n%s \n", task.Name, string(b))
 	}
 	// cl.Resolve()
 }

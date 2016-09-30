@@ -40,7 +40,10 @@ func loadTaskHcl(list *ast.ObjectList) ([]*Task, error) {
 		action := item.Keys[0].Token.Value().(string)
 		name := item.Keys[1].Token.Value().(string)
 
+		// var listVal *ast.ObjectList
 		if _, ok := item.Val.(*ast.ObjectType); !ok {
+			// 	listVal = ot.List
+			// } else {
 			return nil, fmt.Errorf("module '%s': should be an object", name)
 		}
 
@@ -51,6 +54,19 @@ func loadTaskHcl(list *ast.ObjectList) ([]*Task, error) {
 				name,
 				err)
 		}
+
+		// delete(config, "state")
+
+		// var state string
+		// if o := listVal.Filter("state"); len(o.Items) > 0 {
+		// 	err := hcl.DecodeObject(&state, o.Items[0].Val)
+		// 	if err != nil {
+		// 		return nil, fmt.Errorf(
+		// 			"Error parsing state for %s: %s",
+		// 			name,
+		// 			err)
+		// 	}
+		// }
 
 		result = append(result, &Task{
 			Name:   name,
