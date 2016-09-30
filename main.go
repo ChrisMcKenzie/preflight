@@ -26,5 +26,8 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	cl.Resolve()
+	for _, task := range cl.Tasks {
+		fmt.Printf("===== TASK: %s =====\n", task.Name)
+	}
+	// cl.Resolve()
 }
