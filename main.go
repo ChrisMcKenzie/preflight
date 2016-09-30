@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/ChrisMcKenzie/preflight/preflight"
+	"github.com/fatih/color"
 	"github.com/hashicorp/hcl"
 )
 
@@ -27,9 +28,11 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	yellow := color.New(color.FgYellow).SprintFunc()
 	for _, task := range cl.Tasks {
 		b, _ := json.MarshalIndent(task.Config, "", "  ")
-		fmt.Printf("===== TASK: %s =====\n%s \n", task.Name, string(b))
+		fmt.Printf("===== TASK: %s =====\n\n%s\n\n", task.Name, yellow(string(b)))
 	}
 	// cl.Resolve()
 }
