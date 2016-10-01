@@ -10,6 +10,6 @@ func main() {
 	// so that the host and our plugin can verify they can talk to each other.
 	// Then we set the plugin map to say what plugins we're serving.
 	plugin.Serve(&plugin.ServeOpts{
-		GreeterFunc: homebrew.Greeter,
+		ProvisionerFunc: homebrew.Provisioner,
 	})
 }

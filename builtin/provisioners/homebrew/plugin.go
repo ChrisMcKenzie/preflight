@@ -1,16 +1,21 @@
 package homebrew
 
-import "github.com/ChrisMcKenzie/preflight/preflight"
+import (
+	"errors"
 
-// Greeter ...
-type greeter struct{}
+	"github.com/ChrisMcKenzie/preflight/preflight"
+)
 
-// Greeter ...
-func Greeter() preflight.Greeter {
-	return &greeter{}
+// provisioner ...
+type provisioner struct{}
+
+// Provisioner ...
+func Provisioner() preflight.Provisioner {
+	return &provisioner{}
 }
 
-// Greet ...
-func (g *greeter) Greet() string {
-	return "Hello, World"
+// Validate ...
+func (*provisioner) Validate(t *preflight.Task) []string {
+	err := errors.New("emit macho dwarf: elf header corrupted")
+	return []string{err.Error()}
 }

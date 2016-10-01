@@ -47,12 +47,12 @@ var planCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		raw, err := rpcClient.Dispense("greeter")
+		raw, err := rpcClient.Dispense("provisioner")
 		if err != nil {
 			log.Println(err)
 		}
-		greeter := raw.(preflight.Greeter)
-		fmt.Println(greeter.Greet())
+		prov := raw.(preflight.Provisioner)
+		fmt.Println(prov.Validate(&preflight.Task{Name: "install_shit"}))
 		// cl.Plan()
 	},
 }
