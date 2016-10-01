@@ -26,14 +26,22 @@ func (ProvisionerPlugin) Client(b *plugin.MuxBroker, c *rpc.Client) (interface{}
 type Provisioner struct{ client *rpc.Client }
 
 // Validate ...
-func (pc *Provisioner) Validate(t *preflight.Task) []string {
+func (pc *Provisioner) Validate(t *preflight.Task) ([]string, []error) {
 	var resp ProvisionerValidateResponse
 	err := pc.client.Call("Plugin.Validate", t, &resp)
 	if err != nil {
-		return []string{err.Error()}
+		return []string{}, []error{err}
 	}
 
-	return resp.Errors
+	var errs []error
+	if len(resp.Errors) > 0 {
+		errs = make([]error, len(resp.Errors))
+		for i, err := range resp.Errors {
+			errs[i] = err
+		}
+	}
+
+	return resp.Warnings, errs
 }
 
 // ProvisionerServer ...
@@ -45,14 +53,20 @@ type ProvisionerServer struct {
 func (ps ProvisionerServer) Validate(
 	args *preflight.Task,
 	resp *ProvisionerValidateResponse) error {
-	errs := ps.Provisioner.Validate(args)
+	wars, errs := ps.Provisioner.Validate(args)
+	berrs := make([]*plugin.BasicError, len(errs))
+	for i, err := range errs {
+		berrs[i] = plugin.NewBasicError(err)
+	}
 	*resp = ProvisionerValidateResponse{
-		Errors: errs,
+		Warnings: wars,
+		Errors:   berrs,
 	}
 	return nil
 }
 
 // ProvisionerValidateResponse ...
 type ProvisionerValidateResponse struct {
-	Errors []string
+	Warnings []string
+	Errors   []*plugin.BasicError
 }

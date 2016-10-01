@@ -15,7 +15,7 @@ func Provisioner() preflight.Provisioner {
 }
 
 // Validate ...
-func (*provisioner) Validate(t *preflight.Task) []string {
+func (*provisioner) Validate(t *preflight.Task) ([]string, []error) {
 	err := errors.New("emit macho dwarf: elf header corrupted")
-	return []string{err.Error()}
+	return []string{}, []error{err}
 }
