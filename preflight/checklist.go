@@ -1,35 +1,23 @@
 package preflight
 
-import "log"
+import (
+	"encoding/json"
+	"fmt"
+
+	"github.com/fatih/color"
+)
 
 // CheckList ...
 type CheckList struct {
 	Tasks []*Task `hcl:"package"`
 }
 
-// Resolve ...
-func (cl *CheckList) Resolve() error {
-	done := make(chan bool)
-	if len(cl.Tasks) > 0 {
-		// go cl.resolvePackages(done)
+// Plan ...
+func (cl *CheckList) Plan() {
+	yellow := color.New(color.FgYellow).SprintFunc()
+	green := color.New(color.FgGreen).SprintFunc()
+	for _, task := range cl.Tasks {
+		b, _ := json.MarshalIndent(task.Config, "", "  ")
+		fmt.Printf("===== TASK: (%s) %s =====\n\n%s\n\n", green(task.Type), task.Name, yellow(string(b)))
 	}
-
-	<-done
-	return nil
-}
-
-func (cl *CheckList) resolvePackages(done chan bool) {
-	for _, pkg := range cl.Tasks {
-		log.Printf("%s.%s ...\n", pkg.Name, pkg.Type)
-		switch pkg.Type {
-		case "installed":
-			// router.Installed(pkg)
-		case "uninstalled":
-			// router.Uninstalled(pkg)
-		default:
-			log.Printf("Invalid state %s for %s...\n", pkg.Type, pkg.Name)
-		}
-	}
-
-	done <- true
 }
