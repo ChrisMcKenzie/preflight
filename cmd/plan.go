@@ -2,12 +2,15 @@ package cmd
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os/exec"
 
 	pfPlugin "github.com/ChrisMcKenzie/preflight/plugin"
 	"github.com/ChrisMcKenzie/preflight/preflight"
+	"github.com/fatih/color"
 	"github.com/hashicorp/go-plugin"
+	"github.com/hashicorp/hcl"
 	"github.com/spf13/cobra"
 )
 
@@ -17,43 +20,23 @@ var planCmd = &cobra.Command{
 	Short: "",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		// bytes, err := ioutil.ReadFile(args[0])
-		// if err != nil {
-		// 	log.Println(err)
-		// }
-		//
-		// file, err := hcl.ParseBytes(bytes)
-		// if err != nil {
-		// 	log.Println(err)
-		// 	return
-		// }
-		//
-		// cl, err := preflight.LoadHcl(file)
-		// if err != nil {
-		// 	fmt.Println(err)
-		// }
-
-		// We're a host! Start by launching the plugin process.
-		client := plugin.NewClient(&plugin.ClientConfig{
-			HandshakeConfig: pfPlugin.Handshake,
-			Plugins:         pfPlugin.PluginMap,
-			Cmd:             exec.Command(args[0]),
-		})
-		defer client.Kill()
-
-		// Connect via RPC
-		rpcClient, err := client.Client()
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		raw, err := rpcClient.Dispense("provisioner")
+		bytes, err := ioutil.ReadFile(args[0])
 		if err != nil {
 			log.Println(err)
 		}
-		prov := raw.(preflight.Provisioner)
-		fmt.Println(prov.Validate(&preflight.Task{Name: "install_shit"}))
-		// cl.Plan()
+
+		file, err := hcl.ParseBytes(bytes)
+		if err != nil {
+			log.Println(err)
+			return
+		}
+
+		cl, err := preflight.LoadHcl(file)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		Plan(cl)
 	},
 }
 
@@ -70,4 +53,49 @@ func init() {
 	// is called directly, e.g.:
 	// planCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
+}
+
+// Plan ...
+func Plan(cl *preflight.CheckList) {
+	// We're a host! Start by launching the plugin process.
+	yellow := color.New(color.FgYellow).SprintFunc()
+	green := color.New(color.FgGreen).SprintFunc()
+	red := color.New(color.FgRed).SprintFunc()
+	for _, task := range cl.Tasks {
+
+		client := plugin.NewClient(&plugin.ClientConfig{
+			HandshakeConfig: pfPlugin.Handshake,
+			Plugins:         pfPlugin.PluginMap,
+			Cmd:             exec.Command(fmt.Sprintf(".preflight/provisioner-%s", task.Type)),
+		})
+		defer client.Kill()
+
+		log.SetOutput(ioutil.Discard)
+
+		// Connect via RPC
+		rpcClient, err := client.Client()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		raw, err := rpcClient.Dispense("provisioner")
+		if err != nil {
+			log.Println(err)
+		}
+		prov := raw.(preflight.Provisioner)
+
+		fmt.Printf("===== TASK: (%s) %s =====\n\n", green(task.Type), task.Name)
+		var exists bool
+		exists, err = prov.Exists(task)
+		if err != nil {
+			fmt.Printf(red("ERROR: %s\n"), err)
+			break
+		}
+
+		if exists {
+			fmt.Printf(yellow("- %s exists: no change needed\n\n"), task.Config["name"])
+		} else {
+			fmt.Printf(green("+ %s is absent: installing\n\n"), task.Config["name"].(string))
+		}
+	}
 }

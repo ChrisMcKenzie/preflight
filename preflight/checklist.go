@@ -13,7 +13,7 @@ type CheckList struct {
 }
 
 // Plan ...
-func (cl *CheckList) Plan() {
+func Plan(cl *CheckList) {
 	yellow := color.New(color.FgYellow).SprintFunc()
 	green := color.New(color.FgGreen).SprintFunc()
 	for _, task := range cl.Tasks {

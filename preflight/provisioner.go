@@ -6,6 +6,6 @@ type Provisioner interface {
 
 	// Create(*Task) error
 	// Delete(*Task) error
-	// Exists(*Task) (bool, error)
+	Exists(*Task) (bool, error)
 	// Read(*Task) error
 }

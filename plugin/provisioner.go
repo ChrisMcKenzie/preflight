@@ -44,6 +44,21 @@ func (pc *Provisioner) Validate(t *preflight.Task) ([]string, []error) {
 	return resp.Warnings, errs
 }
 
+// Exists ...
+func (pc *Provisioner) Exists(t *preflight.Task) (bool, error) {
+	var resp ProvisionerExistsResponse
+	err := pc.client.Call("Plugin.Exists", t, &resp)
+	if err != nil {
+		return false, err
+	}
+
+	if resp.Error != nil {
+		return false, resp.Error
+	}
+
+	return resp.Exists, nil
+}
+
 // ProvisionerServer ...
 type ProvisionerServer struct {
 	Provisioner preflight.Provisioner
@@ -65,8 +80,28 @@ func (ps ProvisionerServer) Validate(
 	return nil
 }
 
+// Exists ...
+func (ps ProvisionerServer) Exists(
+	args *preflight.Task,
+	resp *ProvisionerExistsResponse) error {
+	exists, err := ps.Provisioner.Exists(args)
+	berr := plugin.NewBasicError(err)
+	*resp = ProvisionerExistsResponse{
+		Exists: exists,
+		Error:  berr,
+	}
+
+	return nil
+}
+
 // ProvisionerValidateResponse ...
 type ProvisionerValidateResponse struct {
 	Warnings []string
 	Errors   []*plugin.BasicError
+}
+
+// ProvisionerExistsResponse ...
+type ProvisionerExistsResponse struct {
+	Exists bool
+	Error  *plugin.BasicError
 }

@@ -9,6 +9,11 @@ task "homebrew" "install_vim" {
   state = "present"
 }
 
+task "homebrew" "install_vimpager" {
+  name = "vimpager"
+  state = "present"
+}
+
 task "file" "create_vimrc" {
   path = "${path.home}/.vimrc"
   source = "${path.module}/vimrc"
