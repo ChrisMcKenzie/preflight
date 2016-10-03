@@ -11,8 +11,8 @@ import (
 // directory. It is a UX feature, not a security feature.
 var Handshake = plugin.HandshakeConfig{
 	ProtocolVersion:  1,
-	MagicCookieKey:   "BASIC_PLUGIN",
-	MagicCookieValue: "hello",
+	MagicCookieKey:   "PF_PLUGIN_MAGIC_COOKIE",
+	MagicCookieValue: "UEZfUExVR0lOX01BR0lDX0NPT0tJRQo",
 }
 
 // ProvisionerFunc ...
