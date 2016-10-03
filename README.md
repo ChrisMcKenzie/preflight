@@ -1,6 +1,13 @@
 # preflight
 Config management in go inspired by terraform (learning exercise).
 
+**EXPERIMENT** 
+
+This is very much a learning exercise for me and anyone interested in learning
+how to build a config management tool in golang with a extendable plugin system
+
+Feel free to create Issues/PRs and learn with me!!
+
 ```
 # vim: set ft=hcl:
 
