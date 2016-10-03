@@ -62,7 +62,7 @@ func Plan(cl *preflight.CheckList) {
 	green := color.New(color.FgGreen).SprintFunc()
 	red := color.New(color.FgRed).SprintFunc()
 	for _, task := range cl.Tasks {
-
+		fmt.Printf("===== TASK: (%s) %s =====\n\n", green(task.Type), task.Name)
 		client := plugin.NewClient(&plugin.ClientConfig{
 			HandshakeConfig: pfPlugin.Handshake,
 			Plugins:         pfPlugin.PluginMap,
@@ -75,16 +75,16 @@ func Plan(cl *preflight.CheckList) {
 		// Connect via RPC
 		rpcClient, err := client.Client()
 		if err != nil {
-			log.Fatal(err)
+			fmt.Printf(red("ERROR: %s\n\n"), err)
+			break
 		}
 
 		raw, err := rpcClient.Dispense("provisioner")
 		if err != nil {
-			log.Println(err)
+			fmt.Println(err)
 		}
 		prov := raw.(preflight.Provisioner)
 
-		fmt.Printf("===== TASK: (%s) %s =====\n\n", green(task.Type), task.Name)
 		var exists bool
 		exists, err = prov.Exists(task)
 		if err != nil {
