@@ -39,7 +39,7 @@ task "script" "run_dotfiles_install" {
 
 ## Building
 
-Currently plugins need to be built individually of the main binary this can be
+Currently plugins need to be built independently of the main binary this can be
 done by running the following.
 
 ```
