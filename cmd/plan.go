@@ -6,6 +6,7 @@ import (
 	"log"
 	"os/exec"
 
+	"github.com/ChrisMcKenzie/preflight/config"
 	pfPlugin "github.com/ChrisMcKenzie/preflight/plugin"
 	"github.com/ChrisMcKenzie/preflight/preflight"
 	"github.com/fatih/color"
@@ -31,7 +32,7 @@ var planCmd = &cobra.Command{
 			return
 		}
 
-		cl, err := preflight.LoadHcl(file)
+		cl, err := config.LoadHcl(file)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -56,7 +57,7 @@ func init() {
 }
 
 // Plan ...
-func Plan(cl *preflight.CheckList) {
+func Plan(cl *config.Config) {
 	// We're a host! Start by launching the plugin process.
 	yellow := color.New(color.FgYellow).SprintFunc()
 	green := color.New(color.FgGreen).SprintFunc()
@@ -88,14 +89,14 @@ func Plan(cl *preflight.CheckList) {
 		var exists bool
 		exists, err = prov.Exists(task)
 		if err != nil {
-			fmt.Printf(red("ERROR: %s\n"), err)
+			fmt.Printf(red("ERROR: %s\n\n"), err)
 			break
 		}
 
 		if exists {
-			fmt.Printf(yellow("- %s exists: no change needed\n\n"), task.Config["name"])
+			fmt.Printf(yellow("- %s exists: no change needed\n\n"), task.RawConfig["name"])
 		} else {
-			fmt.Printf(green("+ %s is absent: installing\n\n"), task.Config["name"].(string))
+			fmt.Printf(green("+ %s is absent: installing\n\n"), task.RawConfig["name"].(string))
 		}
 	}
 }

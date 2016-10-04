@@ -36,3 +36,12 @@ task "script" "run_dotfiles_install" {
   content = "${data.script.dotfiles}"
 }
 ```
+
+## Building
+
+Currently plugins need to be built individually of the main binary this can be
+done by running the following.
+
+```
+./build/build-plugin.sh
+```

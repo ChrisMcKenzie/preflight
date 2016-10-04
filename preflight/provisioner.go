@@ -1,11 +1,12 @@
 package preflight
 
+import "github.com/ChrisMcKenzie/preflight/config"
+
 // Provisioner ...
 type Provisioner interface {
-	Validate(*Task) ([]string, []error)
-
+	Validate(*config.Task) ([]string, []error)
 	// Create(*Task) error
 	// Delete(*Task) error
-	Exists(*Task) (bool, error)
+	Exists(*config.Task) (bool, error)
 	// Read(*Task) error
 }

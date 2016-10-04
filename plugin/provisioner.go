@@ -3,6 +3,7 @@ package plugin
 import (
 	"net/rpc"
 
+	"github.com/ChrisMcKenzie/preflight/config"
 	"github.com/ChrisMcKenzie/preflight/preflight"
 	"github.com/hashicorp/go-plugin"
 )
@@ -26,7 +27,7 @@ func (ProvisionerPlugin) Client(b *plugin.MuxBroker, c *rpc.Client) (interface{}
 type Provisioner struct{ client *rpc.Client }
 
 // Validate ...
-func (pc *Provisioner) Validate(t *preflight.Task) ([]string, []error) {
+func (pc *Provisioner) Validate(t *config.Task) ([]string, []error) {
 	var resp ProvisionerValidateResponse
 	err := pc.client.Call("Plugin.Validate", t, &resp)
 	if err != nil {
@@ -45,7 +46,7 @@ func (pc *Provisioner) Validate(t *preflight.Task) ([]string, []error) {
 }
 
 // Exists ...
-func (pc *Provisioner) Exists(t *preflight.Task) (bool, error) {
+func (pc *Provisioner) Exists(t *config.Task) (bool, error) {
 	var resp ProvisionerExistsResponse
 	err := pc.client.Call("Plugin.Exists", t, &resp)
 	if err != nil {
@@ -66,7 +67,7 @@ type ProvisionerServer struct {
 
 // Validate ...
 func (ps ProvisionerServer) Validate(
-	args *preflight.Task,
+	args *config.Task,
 	resp *ProvisionerValidateResponse) error {
 	wars, errs := ps.Provisioner.Validate(args)
 	berrs := make([]*plugin.BasicError, len(errs))
@@ -82,7 +83,7 @@ func (ps ProvisionerServer) Validate(
 
 // Exists ...
 func (ps ProvisionerServer) Exists(
-	args *preflight.Task,
+	args *config.Task,
 	resp *ProvisionerExistsResponse) error {
 	exists, err := ps.Provisioner.Exists(args)
 	berr := plugin.NewBasicError(err)

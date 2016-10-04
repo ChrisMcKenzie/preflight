@@ -15,14 +15,14 @@ task "homebrew" "install_vimpager" {
 }
 
 task "file" "create_vimrc" {
-  path = "${path.home}/.vimrc"
+  name = "${path.home}/.vimrc"
   source = "${path.module}/vimrc"
   state = "present"
 
   attrs {
     owner = "chrism"
     group = "staff"
-    perrmissions = 777
+    permissions = 777
   }
 }
 

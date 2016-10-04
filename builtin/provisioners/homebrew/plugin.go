@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"os/exec"
 
+	"github.com/ChrisMcKenzie/preflight/config"
 	"github.com/ChrisMcKenzie/preflight/preflight"
 )
 
@@ -33,14 +34,14 @@ func Provisioner() preflight.Provisioner {
 }
 
 // Validate ...
-func (*provisioner) Validate(t *preflight.Task) ([]string, []error) {
+func (*provisioner) Validate(t *config.Task) ([]string, []error) {
 	return []string{}, []error{}
 }
 
 // Exists ...
-func (*provisioner) Exists(t *preflight.Task) (bool, error) {
+func (*provisioner) Exists(t *config.Task) (bool, error) {
 	var buf bytes.Buffer
-	cmd := exec.Command("brew", "info", "--json=v1", t.Config["name"].(string))
+	cmd := exec.Command("brew", "info", "--json=v1", t.RawConfig["name"].(string))
 	cmd.Stdout = &buf
 	err := cmd.Run()
 	if err != nil {

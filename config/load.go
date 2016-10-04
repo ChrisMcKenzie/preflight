@@ -1,4 +1,4 @@
-package preflight
+package config
 
 import (
 	"fmt"
@@ -8,14 +8,14 @@ import (
 )
 
 // LoadHcl ...
-func LoadHcl(f *ast.File) (*CheckList, error) {
+func LoadHcl(f *ast.File) (*Config, error) {
 	// Top-level item should be the object list
 	list, ok := f.Node.(*ast.ObjectList)
 	if !ok {
 		return nil, fmt.Errorf("error parsing: file does not contain root node object")
 	}
 
-	cl := new(CheckList)
+	cl := new(Config)
 
 	if packages := list.Filter("task"); len(packages.Items) > 0 {
 		var err error
@@ -40,10 +40,10 @@ func loadTaskHcl(list *ast.ObjectList) ([]*Task, error) {
 		action := item.Keys[0].Token.Value().(string)
 		name := item.Keys[1].Token.Value().(string)
 
-		// var listVal *ast.ObjectList
-		if _, ok := item.Val.(*ast.ObjectType); !ok {
-			// 	listVal = ot.List
-			// } else {
+		var listVal *ast.ObjectList
+		if ot, ok := item.Val.(*ast.ObjectType); ok {
+			listVal = ot.List
+		} else {
 			return nil, fmt.Errorf("module '%s': should be an object", name)
 		}
 
@@ -55,23 +55,23 @@ func loadTaskHcl(list *ast.ObjectList) ([]*Task, error) {
 				err)
 		}
 
-		// delete(config, "state")
+		delete(config, "state")
 
-		// var state string
-		// if o := listVal.Filter("state"); len(o.Items) > 0 {
-		// 	err := hcl.DecodeObject(&state, o.Items[0].Val)
-		// 	if err != nil {
-		// 		return nil, fmt.Errorf(
-		// 			"Error parsing state for %s: %s",
-		// 			name,
-		// 			err)
-		// 	}
-		// }
+		var state string
+		if o := listVal.Filter("state"); len(o.Items) > 0 {
+			err := hcl.DecodeObject(&state, o.Items[0].Val)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"Error parsing state for %s: %s",
+					name,
+					err)
+			}
+		}
 
 		result = append(result, &Task{
-			Name:   name,
-			Type:   action,
-			Config: config,
+			Name:      name,
+			Type:      action,
+			RawConfig: config,
 		})
 	}
 
