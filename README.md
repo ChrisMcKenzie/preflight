@@ -1,12 +1,40 @@
-# preflight
+# Preflight
+
 Config management in go inspired by terraform (learning exercise).
 
-**EXPERIMENT** 
-
-This is very much a learning exercise for me and anyone interested in learning
-how to build a config management tool in golang with a extendable plugin system
-
 Feel free to create Issues/PRs and learn with me!!
+
+## What Preflight Is.
+
+Preflight is a learning exercise to see what is involved in making a simple yet
+capable Config Management System. It has a plugin api so that users can add 
+custom functionality, it has a simple yet robust syntax built using HCL, and 
+string interpolation, and it has a plan command to overview changes quickly and
+easily before they happen.
+
+## What Preflight Is Not.
+
+Preflight is not a production system (yet) maybe it will be some day but for now 
+the intentions are purely academic.
+
+## Status
+
+Preflight is still very early and most of the system is just ideas half layed 
+out in code, I really would like to build this out in the open where everyone 
+can see, learn, and collaborate. 
+
+I urge anyone who is curious about how CMSs work or have a greate idea for a 
+killer feature please contribute!
+
+As for things todo here it is:
+
+- [ ] Implement way to consistently Diff system and state files to generate plan
+- [ ] Implement string interpolation and variable system
+- [ ] Implement system for retrieving Data, Plugins from various storage mediums
+- [ ] Implement system for remote/local execution
+- [ ] Build reference/standard plugins
+
+## Syntax (Subject to Change)
 
 ```
 # vim: set ft=hcl:
