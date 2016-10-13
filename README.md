@@ -73,3 +73,8 @@ done by running the following.
 ```
 ./build/build-plugin.sh
 ```
+
+you may then test everything by running:
+```
+go run main.go plan examples/vim/main.pf
+```
