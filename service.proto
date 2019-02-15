@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package preflight;
+option go_package = "github.com/ChrisMckenzie/preflight";
+
+service API {
+}

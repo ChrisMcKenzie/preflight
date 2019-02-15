@@ -1,0 +1,22 @@
+# vim: ft=hcl
+
+var "test" {
+  default = "hello"
+}
+
+task "bash_script" "install_packages"{
+  script = "test.sh"
+}
+
+# task "chrismckenzie/myplugin.test" "test_plugin" {
+#   version = "0.0.1"
+# }
+
+# task "docker.run" "run_container" {
+#   image = "nginx"
+#   ports = ["80:8080"]
+#
+#   depends_on = ["pkg_install.install_packages"]
+# }
+
+

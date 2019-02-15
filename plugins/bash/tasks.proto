@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package bash;
+option go_package = "github.com/ChrisMcKenzie/preflight/plugins/bash";
+
+import "task/task.proto";
+
+message script {
+  task.Meta meta = 1;
+  string script = 2;
+}
