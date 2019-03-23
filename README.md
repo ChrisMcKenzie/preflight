@@ -71,10 +71,10 @@ Currently plugins need to be built independently of the main binary this can be
 done by running the following.
 
 ```
-./build/build-plugin.sh
+go generate ./...
 ```
 
 you may then test everything by running:
 ```
-go run main.go plan examples/vim/main.pf
+go test -v ./...
 ```
