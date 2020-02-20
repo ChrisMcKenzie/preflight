@@ -56,7 +56,7 @@ func (g *Graph) SetEdge(e Edge) {
 		return
 	}
 
-	if s, ok := g.from[fromCode]; ok && s.Include(to) {
+	if s, ok := g.from[toCode]; ok && s.Include(from) {
 		return
 	}
 
@@ -68,19 +68,19 @@ func (g *Graph) SetEdge(e Edge) {
 		g.AddNode(to)
 	}
 
-	s, ok := g.from[fromCode]
+	s, ok := g.from[toCode]
 	if !ok {
 		s = new(Set)
-		g.from[fromCode] = s
+		g.from[toCode] = s
 	}
-	s.Add(e.Target())
+	s.Add(from)
 
-	s, ok = g.to[toCode]
+	s, ok = g.to[fromCode]
 	if !ok {
 		s = new(Set)
-		g.to[toCode] = s
+		g.to[fromCode] = s
 	}
-	s.Add(e.Target())
+	s.Add(to)
 }
 
 func (g *Graph) Nodes() []Node {
@@ -94,13 +94,16 @@ func (g *Graph) Nodes() []Node {
 }
 
 func (g *Graph) From(n Node) *Set {
-	return g.from[hashcode(n)]
+	s, ok := g.from[hashcode(n)]
+	if !ok {
+		return nil
+	}
+
+	return s
 }
 
 func (g *Graph) To(n Node) *Set {
-	nCode := hashcode(n)
-	s, ok := g.from[nCode]
-
+	s, ok := g.to[hashcode(n)]
 	if !ok {
 		return nil
 	}
@@ -179,30 +182,31 @@ func (g *Graph) Root() (Node, error) {
 }
 
 func (g *Graph) RemoveEdge(e Edge) {
-
-	if s, ok := g.from[e.Source()]; ok {
-		s.Delete(e.Target())
+	if s, ok := g.from[e.Target()]; ok {
+		s.Delete(e.Source())
 	}
 
-	if s, ok := g.to[e.Target()]; ok {
-		s.Delete(e.Source())
+	if s, ok := g.to[e.Source()]; ok {
+		s.Delete(e.Target())
 	}
 }
 
 func (g *Graph) TransitiveReduction() {
-	for _, n := range g.Nodes() {
-		nTargets := g.From(n)
+	g.depthFirstWalk(g.Nodes(), true, func(n Node, d int) error {
+		nTargets := g.To(n)
 		ns := AsNodeList(nTargets)
 
 		g.depthFirstWalk(ns, true, func(v Node, d int) error {
 			shared := nTargets.Intersection(g.From(v))
-			for _, vP := range AsNodeList(shared) {
-				g.RemoveEdge(BasicEdge(v, vP))
+			for range AsNodeList(shared) {
+				g.RemoveEdge(BasicEdge(n, v))
 			}
 
 			return nil
 		})
-	}
+
+		return nil
+	})
 }
 
 type vertexDepth struct {

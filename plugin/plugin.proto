@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package plugin;
+option go_package = "github.com/ChrisMcKenzie/preflight/plugin";
+
+message Meta {
+  string URL = 1;
+  string name = 2;
+  string version = 3;
+
+  bool enforce = 4;
+}

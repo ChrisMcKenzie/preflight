@@ -3,9 +3,10 @@ syntax = "proto3";
 package bash;
 option go_package = "github.com/ChrisMcKenzie/preflight/plugins/bash";
 
-import "task/task.proto";
+import "plugin/plugin.proto";
 
 message script {
-  task.Meta meta = 1;
-  string script = 2;
+  plugin.Meta meta = 1;
+  string evaluateScript = 2;
+  string applyScript = 3;
 }

@@ -5,8 +5,10 @@ var "test" {
 }
 
 task "bash_script" "install_packages"{
-  script = "test.sh"
+  evaluate = "test.sh"
+  apply = "apply.sh"
 }
+
 
 # task "chrismckenzie/myplugin.test" "test_plugin" {
 #   version = "0.0.1"

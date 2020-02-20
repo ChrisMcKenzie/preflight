@@ -4,11 +4,11 @@ import (
 	fmt "fmt"
 	strings "strings"
 
-	"github.com/ChrisMcKenzie/preflight/task"
+	"github.com/ChrisMcKenzie/preflight/plugin"
 )
 
 type Config struct {
-	Tasks     []task.Task
+	Tasks     []plugin.Task
 	Variables []Variable
 }
 

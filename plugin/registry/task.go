@@ -1,4 +1,4 @@
-package task
+package registry
 
 import (
 	fmt "fmt"
@@ -9,39 +9,32 @@ import (
 	"strings"
 	"sync"
 
+	plug "github.com/ChrisMcKenzie/preflight/plugin"
 	"github.com/gogo/protobuf/proto"
-	types "github.com/gogo/protobuf/types"
+	"github.com/gogo/protobuf/types"
 	getter "github.com/hashicorp/go-getter"
 )
 
 const (
 	RegisterTaskFuncName = "RegisterTasks"
 
-	TaskPackageIsVersion1 = true
-	TaskPackageVersion    = "0.0.1"
+	TaskPackageVersion = "0.0.1"
 
-	taskURL = "plugins.pre-flight.io"
+	defaultTaskURL = "plugins.pre-flight.io"
 )
-
-type Task interface {
-	Evaluate()
-	Apply()
-}
-
-type TaskFunc func(Meta) Task
 
 var (
 	mu           sync.Mutex
-	taskRegistry = make(map[string]TaskFunc)
+	taskRegistry = make(map[string]plug.TaskFunc)
 )
 
-func RegisterTask(name string, task TaskFunc) {
+func RegisterTask(name string, task plug.TaskFunc) {
 	mu.Lock()
 	defer mu.Unlock()
 	taskRegistry[name] = task
 }
 
-func GetTask(meta Meta) (Task, error) {
+func GetTask(meta plug.Meta) (plug.Task, error) {
 	dir, err := os.Getwd()
 	if err != nil {
 		return nil, err
@@ -76,7 +69,7 @@ func GetTask(meta Meta) (Task, error) {
 	return f(meta), nil
 }
 
-func getRemotePlugin(name string) Task {
+func getRemotePlugin(name string) plug.Task {
 	return nil
 }
 
@@ -90,21 +83,21 @@ func MarshalAny(pb proto.Message) (*types.Any, error) {
 		return nil, err
 	}
 
-	url := path.Join(taskURL, proto.MessageName(pb))
+	url := path.Join(defaultTaskURL, proto.MessageName(pb))
 	return &types.Any{TypeUrl: url, Value: value}, nil
 }
 
 func LoadPlugin(path string) error {
-	plug, err := plugin.Open(path)
+	p, err := plugin.Open(path)
 	if err != nil {
 		return err
 	}
-	fi, err := plug.Lookup(RegisterTaskFuncName)
+	fi, err := p.Lookup(RegisterTaskFuncName)
 	if err != nil {
 		return err
 	}
 
-	register, ok := fi.(func() map[string]TaskFunc)
+	register, ok := fi.(func() map[string]plug.TaskFunc)
 	if !ok {
 		return err
 	}

@@ -26,8 +26,7 @@ ROOT=$(pwd)
 echo "# Generating Plugins..."
 # Generate various test protos.
 PROTO_DIRS=(
-  task
-  plugins
+  plugin
 )
 for dir in ${PROTO_DIRS[@]}; do
   for p in `find $dir -name "*.proto"`; do

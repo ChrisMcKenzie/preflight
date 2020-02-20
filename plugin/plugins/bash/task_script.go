@@ -3,12 +3,12 @@ package bash
 import (
 	fmt "fmt"
 
-	"github.com/ChrisMcKenzie/preflight/task"
+	plugin "github.com/ChrisMcKenzie/preflight/plugin"
 	"github.com/hashicorp/hcl"
 	"github.com/hashicorp/hcl/hcl/ast"
 )
 
-func NewScriptTask(m task.Meta) task.Task {
+func NewScriptTask(m plugin.Meta) plugin.Task {
 	return &Script{Meta: &m}
 }
 
@@ -17,8 +17,16 @@ func (s *Script) Name() string {
 }
 
 func (s *Script) MarshalHCL(l *ast.ObjectList) error {
-	if o := l.Filter("script"); len(o.Items) > 0 {
-		err := hcl.DecodeObject(&s.Script, o.Items[0].Val)
+	if o := l.Filter("evaluate"); len(o.Items) > 0 {
+		err := hcl.DecodeObject(&s.EvaluateScript, o.Items[0].Val)
+		if err != nil {
+			return fmt.Errorf(
+				"Error parsing script for %s: %s", s.Meta.Name, err)
+		}
+	}
+
+	if o := l.Filter("apply"); len(o.Items) > 0 {
+		err := hcl.DecodeObject(&s.ApplyScript, o.Items[0].Val)
 		if err != nil {
 			return fmt.Errorf(
 				"Error parsing script for %s: %s", s.Meta.Name, err)

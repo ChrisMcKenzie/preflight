@@ -3,6 +3,7 @@ package config
 import (
 	fmt "fmt"
 	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/hashicorp/hcl"
@@ -18,6 +19,9 @@ func readFile(file string) (string, error) {
 }
 
 func TestParse(t *testing.T) {
+	defer func() {
+		os.RemoveAll("./.preflight")
+	}()
 	fName := "../examples/test.pf"
 	data, err := readFile(fName)
 	if err != nil {

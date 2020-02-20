@@ -1,0 +1,6 @@
+# vim: ft=hcl
+
+task "bash_script" "install_packages"{
+  evaluate = "test.sh"
+  apply = "test.sh"
+}

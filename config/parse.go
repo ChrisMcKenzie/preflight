@@ -4,7 +4,8 @@ import (
 	fmt "fmt"
 	strings "strings"
 
-	"github.com/ChrisMcKenzie/preflight/task"
+	"github.com/ChrisMcKenzie/preflight/plugin"
+	"github.com/ChrisMcKenzie/preflight/plugin/registry"
 	"github.com/hashicorp/hcl"
 	"github.com/hashicorp/hcl/hcl/ast"
 )
@@ -47,23 +48,31 @@ func parse(filename string, f *ast.File) (*Config, error) {
 	return cfg, nil
 }
 
-func loadTasks(list *ast.ObjectList) ([]task.Task, error) {
+func loadTasks(list *ast.ObjectList) ([]plugin.Task, error) {
 	list = list.Children()
 	if len(list.Items) == 0 {
 		return nil, nil
 	}
 
-	var result []task.Task
+	var result []plugin.Task
 
 	for _, item := range list.Items {
 		taskURL := strings.Replace(item.Keys[0].Token.Value().(string), "_", ".", -1)
 		name := item.Keys[1].Token.Value().(string)
 
-		meta := task.Meta{URL: taskURL, Name: name}
+		meta := plugin.Meta{URL: taskURL, Name: name}
 
 		ot, ok := item.Val.(*ast.ObjectType)
 		if !ok {
 			return nil, fmt.Errorf("task '%s.%s': should be an object", taskURL, name)
+		}
+
+		if o := ot.List.Filter("url"); len(o.Items) > 0 {
+			err := hcl.DecodeObject(&meta.URL, o.Items[0].Val)
+			if err != nil {
+				return nil, fmt.Errorf(
+					"Error parsing url for %s: %s", meta.Name, err)
+			}
 		}
 
 		if o := ot.List.Filter("version"); len(o.Items) > 0 {
@@ -74,7 +83,7 @@ func loadTasks(list *ast.ObjectList) ([]task.Task, error) {
 			}
 		}
 
-		t, err := task.GetTask(meta)
+		t, err := registry.GetTask(meta)
 		if err != nil {
 			return nil, fmt.Errorf("unable to get task named %s: %s", taskURL, err)
 		}
