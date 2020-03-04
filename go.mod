@@ -1,7 +1,6 @@
 module github.com/ChrisMcKenzie/preflight
 
 require (
-	github.com/ChrisMcKenzie/preflight/plugin v0.0.0-20200304163459-1f283f0540ad
 	github.com/aws/aws-sdk-go v1.15.78
 	github.com/cheekybits/genny v1.0.0
 	github.com/gogo/protobuf v1.3.1

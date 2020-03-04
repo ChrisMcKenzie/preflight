@@ -12,8 +12,6 @@ gecgithub01.walmart.com/Torbit/normandy v0.0.0-20190129234156-2ab86feb6c2c h1:as
 gecgithub01.walmart.com/Torbit/normandy v0.0.0-20190129234156-2ab86feb6c2c/go.mod h1:4TGRY/aRYxseDnccdNTvOjBPq3U1TdnCZLaEppMZWzw=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
-github.com/ChrisMcKenzie/preflight/plugin v0.0.0-20200304163459-1f283f0540ad h1:YMTE+G5uNQ5IRYv4BuJv88PV0DP3daPvugfUP7zV6zo=
-github.com/ChrisMcKenzie/preflight/plugin v0.0.0-20200304163459-1f283f0540ad/go.mod h1:lf4zSPa9UYgrhZWGagQsSsLLnuQ91TW/XhUlj3zbkcY=
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf/go.mod h1:ybxpYRFXyAe+OPACYpWeL0wqObRcbAqCMya13uyzqw0=
