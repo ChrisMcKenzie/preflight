@@ -48,13 +48,13 @@ func parse(filename string, f *ast.File) (*Config, error) {
 	return cfg, nil
 }
 
-func loadTasks(list *ast.ObjectList) ([]plugin.Task, error) {
+func loadTasks(list *ast.ObjectList) (map[string]plugin.Task, error) {
 	list = list.Children()
 	if len(list.Items) == 0 {
 		return nil, nil
 	}
 
-	var result []plugin.Task
+	var result map[string]plugin.Task
 
 	for _, item := range list.Items {
 		taskURL := strings.Replace(item.Keys[0].Token.Value().(string), "_", ".", -1)
@@ -93,7 +93,7 @@ func loadTasks(list *ast.ObjectList) ([]plugin.Task, error) {
 				return nil, err
 			}
 		}
-		result = append(result, t)
+		result[name] = t
 	}
 
 	return result, nil

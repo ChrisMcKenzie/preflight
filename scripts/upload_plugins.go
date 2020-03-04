@@ -2,10 +2,12 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"log"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 )
@@ -17,11 +19,15 @@ const (
 )
 
 func main() {
+	key := os.Getenv("SPACES_KEY")
+	secret := os.Getenv("SPACES_SECRET")
+	fmt.Println(key)
 
 	// Create a single AWS session (we can re use this if we're uploading many files)
 	s, err := session.NewSession(&aws.Config{
-		Endpoint: aws.String("sfo2.digitaloceanspaces.com"),
-		Region:   aws.String(S3_REGION),
+		Credentials: credentials.NewStaticCredentials(key, secret, ""),
+		Endpoint:    aws.String("https://sfo2.digitaloceanspaces.com"),
+		Region:      aws.String(S3_REGION),
 	})
 	if err != nil {
 		log.Fatal(err)

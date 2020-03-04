@@ -8,14 +8,14 @@ import (
 )
 
 type Config struct {
-	Tasks     []plugin.Task
+	Tasks     map[string]plugin.Task
 	Variables []Variable
 }
 
 func (c *Config) GoString() string {
 	str := "Config {\n  Tasks: {\n"
-	for _, task := range c.Tasks {
-		result := fmt.Sprintf("%+v", task)
+	for k, task := range c.Tasks {
+		result := fmt.Sprintf("%s: %+v", k, task)
 		s, ok := task.(fmt.GoStringer)
 		if ok {
 			result = s.GoString()
@@ -26,4 +26,12 @@ func (c *Config) GoString() string {
 	str += "  }\n}"
 
 	return str
+}
+
+func (c *Config) Graph() *ItemGraph {
+	return c.renderGraph()
+}
+
+func (c *Config) renderGraph() *ItemGraph {
+	return nil
 }

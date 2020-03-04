@@ -1,5 +1,7 @@
 package preflight
 
-func Plan(g *Graph) error {
+import "github.com/ChrisMcKenzie/preflight/config"
+
+func Plan(g *config.ItemGraph) error {
 	return nil
 }

@@ -9,4 +9,5 @@ message Meta {
   string version = 3;
 
   bool enforce = 4;
+  repeated string dependencies = 5;
 }

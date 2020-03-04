@@ -1,6 +1,7 @@
 package bash
 
 import (
+	"context"
 	fmt "fmt"
 
 	plugin "github.com/ChrisMcKenzie/preflight/plugin"
@@ -36,10 +37,10 @@ func (s *Script) MarshalHCL(l *ast.ObjectList) error {
 	return nil
 }
 
-func (s *Script) Evaluate() {
-
+func (s *Script) Evaluate(ctx context.Context) (*plugin.ResultChange, error) {
+	return nil, nil
 }
 
-func (s *Script) Apply() {
-
+func (s *Script) Apply(ctx context.Context) (*plugin.ResultChange, error) {
+	return nil, nil
 }
