@@ -10,10 +10,12 @@ import (
 	"github.com/hashicorp/hcl/hcl/ast"
 )
 
+// Marshaller defines an HCL marshall for plugins to customize how they are parsed
 type Marshaller interface {
 	MarshalHCL(*ast.ObjectList) error
 }
 
+// Variable defines a user defined variable in preflight HCL syntax
 type Variable struct {
 	Name    string
 	Type    string
@@ -48,13 +50,13 @@ func parse(filename string, f *ast.File) (*Config, error) {
 	return cfg, nil
 }
 
-func loadTasks(list *ast.ObjectList) (map[string]plugin.Task, error) {
+func loadTasks(list *ast.ObjectList) (map[string]*plugin.TaskItem, error) {
 	list = list.Children()
 	if len(list.Items) == 0 {
 		return nil, nil
 	}
 
-	var result map[string]plugin.Task
+	result := make(map[string]*plugin.TaskItem)
 
 	for _, item := range list.Items {
 		taskURL := strings.Replace(item.Keys[0].Token.Value().(string), "_", ".", -1)
@@ -93,7 +95,7 @@ func loadTasks(list *ast.ObjectList) (map[string]plugin.Task, error) {
 				return nil, err
 			}
 		}
-		result[name] = t
+		result[name] = &plugin.TaskItem{Id: name, Task: t, Meta: &meta}
 	}
 
 	return result, nil

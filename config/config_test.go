@@ -5,19 +5,71 @@ import (
 	"testing"
 
 	"github.com/ChrisMcKenzie/preflight/plugin"
+	"github.com/funkygao/golib/dag"
 )
 
 func TestGraph(t *testing.T) {
 	tests := []struct {
 		config   *Config
-		expected *ItemGraph
+		expected *dag.Dag
 	}{
 		{
 			config: &Config{
-				Tasks: map[string]plugin.Task{
-					"mock.task.hello": &plugin.MockTask{
+				Tasks: map[string]*plugin.TaskItem{
+					"mock.task.world": &plugin.TaskItem{
 						Meta: &plugin.Meta{
-							Dependencies: []string{""},
+							Name:         "world",
+							Dependencies: []string{"mock.task.hello"},
+							URL:          "mock.task",
+						},
+						Task: &plugin.MockTask{
+							Meta: &plugin.Meta{
+								Name:         "world",
+								Dependencies: []string{"mock.task.hello"},
+								URL:          "mock.task",
+							},
+						},
+					},
+					"mock.task.hal": &plugin.TaskItem{
+						Meta: &plugin.Meta{
+							Name:         "hal",
+							Dependencies: []string{"mock.task.hello"},
+							URL:          "mock.task",
+						},
+						Task: &plugin.MockTask{
+							Meta: &plugin.Meta{
+								Name:         "hal",
+								Dependencies: []string{"mock.task.hello"},
+								URL:          "mock.task",
+							},
+						},
+					},
+					"mock.task.hello": &plugin.TaskItem{
+						Meta: &plugin.Meta{
+							Name:         "hello",
+							URL:          "mock.task",
+							Dependencies: []string{},
+						},
+						Task: &plugin.MockTask{
+							Meta: &plugin.Meta{
+								Name:         "hello",
+								URL:          "mock.task",
+								Dependencies: []string{},
+							},
+						},
+					},
+					"mock.task.foo": &plugin.TaskItem{
+						Meta: &plugin.Meta{
+							Name:         "foo",
+							URL:          "mock.task",
+							Dependencies: []string{},
+						},
+						Task: &plugin.MockTask{
+							Meta: &plugin.Meta{
+								Name:         "foo",
+								URL:          "mock.task",
+								Dependencies: []string{},
+							},
 						},
 					},
 				},
@@ -25,8 +77,13 @@ func TestGraph(t *testing.T) {
 		},
 	}
 
-	for _, t := range tests {
-		g := t.config.Graph()
-		fmt.Println(g)
+	for _, data := range tests {
+		_, err := data.config.Graph()
+		if err != nil {
+			t.Fatal(err)
+		}
+		data.config.Traverse(func(t *plugin.TaskItem) {
+			fmt.Println(t)
+		})
 	}
 }

@@ -92,6 +92,7 @@ func LoadPlugin(path string) error {
 	if err != nil {
 		return err
 	}
+
 	fi, err := p.Lookup(RegisterTaskFuncName)
 	if err != nil {
 		return err
