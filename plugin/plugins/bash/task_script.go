@@ -9,8 +9,11 @@ import (
 	"github.com/hashicorp/hcl/hcl/ast"
 )
 
-func NewScriptTask(m plugin.Meta) plugin.Task {
-	return &Script{Meta: &m}
+func NewScriptTask(pm *plugin.Meta) func(plugin.TaskMeta) plugin.Task {
+	return func(tm plugin.TaskMeta) plugin.Task {
+		tm.PluginMeta = pm
+		return &Script{Meta: &tm}
+	}
 }
 
 func (s *Script) Name() string {

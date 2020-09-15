@@ -34,7 +34,7 @@ func RegisterTask(name string, task plug.TaskFunc) {
 	taskRegistry[name] = task
 }
 
-func GetTask(meta plug.Meta) (plug.Task, error) {
+func GetTask(meta plug.TaskMeta) (plug.Task, error) {
 	dir, err := os.Getwd()
 	if err != nil {
 		return nil, err
@@ -100,7 +100,7 @@ func LoadPlugin(path string) error {
 
 	register, ok := fi.(func() map[string]plug.TaskFunc)
 	if !ok {
-		return err
+		return fmt.Errorf("unable to run RegisterTask function of %q plugin: wrong function signature.", path)
 	}
 
 	tasks := register()

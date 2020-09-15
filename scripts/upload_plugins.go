@@ -2,10 +2,10 @@ package main
 
 import (
 	"bytes"
-	"fmt"
 	"log"
 	"os"
 
+	"github.com/ChrisMcKenzie/preflight/plugin/registry"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -21,7 +21,10 @@ const (
 func main() {
 	key := os.Getenv("SPACES_KEY")
 	secret := os.Getenv("SPACES_SECRET")
-	fmt.Println(key)
+
+	if err := registry.LoadPlugin(os.Args[1]); err != nil {
+		log.Fatal(err)
+	}
 
 	// Create a single AWS session (we can re use this if we're uploading many files)
 	s, err := session.NewSession(&aws.Config{

@@ -17,13 +17,13 @@ func TestGraph(t *testing.T) {
 			config: &Config{
 				Tasks: map[string]*plugin.TaskItem{
 					"mock.task.world": &plugin.TaskItem{
-						Meta: &plugin.Meta{
+						Meta: &plugin.TaskMeta{
 							Name:         "world",
 							Dependencies: []string{"mock.task.hello"},
 							URL:          "mock.task",
 						},
 						Task: &plugin.MockTask{
-							Meta: &plugin.Meta{
+							Meta: &plugin.TaskMeta{
 								Name:         "world",
 								Dependencies: []string{"mock.task.hello"},
 								URL:          "mock.task",
@@ -31,13 +31,13 @@ func TestGraph(t *testing.T) {
 						},
 					},
 					"mock.task.hal": &plugin.TaskItem{
-						Meta: &plugin.Meta{
+						Meta: &plugin.TaskMeta{
 							Name:         "hal",
 							Dependencies: []string{"mock.task.hello"},
 							URL:          "mock.task",
 						},
 						Task: &plugin.MockTask{
-							Meta: &plugin.Meta{
+							Meta: &plugin.TaskMeta{
 								Name:         "hal",
 								Dependencies: []string{"mock.task.hello"},
 								URL:          "mock.task",
@@ -45,13 +45,13 @@ func TestGraph(t *testing.T) {
 						},
 					},
 					"mock.task.hello": &plugin.TaskItem{
-						Meta: &plugin.Meta{
+						Meta: &plugin.TaskMeta{
 							Name:         "hello",
 							URL:          "mock.task",
 							Dependencies: []string{},
 						},
 						Task: &plugin.MockTask{
-							Meta: &plugin.Meta{
+							Meta: &plugin.TaskMeta{
 								Name:         "hello",
 								URL:          "mock.task",
 								Dependencies: []string{},
@@ -59,13 +59,13 @@ func TestGraph(t *testing.T) {
 						},
 					},
 					"mock.task.foo": &plugin.TaskItem{
-						Meta: &plugin.Meta{
+						Meta: &plugin.TaskMeta{
 							Name:         "foo",
 							URL:          "mock.task",
 							Dependencies: []string{},
 						},
 						Task: &plugin.MockTask{
-							Meta: &plugin.Meta{
+							Meta: &plugin.TaskMeta{
 								Name:         "foo",
 								URL:          "mock.task",
 								Dependencies: []string{},

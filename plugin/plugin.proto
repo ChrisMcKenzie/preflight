@@ -3,11 +3,17 @@ syntax = "proto3";
 package plugin;
 option go_package = "github.com/ChrisMcKenzie/preflight/plugin";
 
-message Meta {
+message TaskMeta {
   string URL = 1;
   string name = 2;
   string version = 3;
 
+  Meta pluginMeta = 6;
+
   bool enforce = 4;
   repeated string dependencies = 5;
+}
+
+message Meta {
+  string version = 1;
 }

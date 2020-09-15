@@ -11,7 +11,8 @@ func TestGetTask(t *testing.T) {
 	defer func() {
 		os.RemoveAll("./.preflight")
 	}()
-	meta := plugin.Meta{URL: "bash.script", Name: "test"}
+
+	meta := plugin.TaskMeta{URL: "bash.script", Name: "test"}
 	_, err := GetTask(meta)
 
 	if err != nil {

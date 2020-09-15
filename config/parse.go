@@ -62,7 +62,7 @@ func loadTasks(list *ast.ObjectList) (map[string]*plugin.TaskItem, error) {
 		taskURL := strings.Replace(item.Keys[0].Token.Value().(string), "_", ".", -1)
 		name := item.Keys[1].Token.Value().(string)
 
-		meta := plugin.Meta{URL: taskURL, Name: name}
+		meta := plugin.TaskMeta{URL: taskURL, Name: name}
 
 		ot, ok := item.Val.(*ast.ObjectType)
 		if !ok {

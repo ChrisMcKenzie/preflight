@@ -12,7 +12,7 @@ const (
 type TaskItem struct {
 	Id   string
 	Task Task
-	Meta *Meta
+	Meta *TaskMeta
 }
 
 func (ti *TaskItem) String() string {
@@ -26,4 +26,4 @@ type Task interface {
 
 type ResultChange struct{}
 
-type TaskFunc func(Meta) Task
+type TaskFunc func(TaskMeta) Task

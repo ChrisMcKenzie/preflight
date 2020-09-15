@@ -6,7 +6,7 @@ option go_package = "github.com/ChrisMcKenzie/preflight/plugins/bash";
 import "plugin/plugin.proto";
 
 message script {
-  plugin.Meta meta = 1;
+  plugin.TaskMeta meta = 1;
   string evaluateScript = 2;
   string applyScript = 3;
 }

@@ -4,6 +4,7 @@ import (
 	fmt "fmt"
 	"net/url"
 	"path"
+	"runtime"
 	"strings"
 )
 
@@ -19,13 +20,15 @@ func (pd *PluginRegistryDetector) Detect(src, pwd string) (string, bool, error) 
 		return "", false, err
 	}
 
+	gv := runtime.Version()
+
 	dir, plugin := path.Split(u.String())
 	if dir == "" {
 		dir = "library"
 	}
 	pparts := strings.Split(plugin, ".")
 	pName := pparts[0]
-	soName := fmt.Sprintf("%s_plugin.so", pName)
+	soName := fmt.Sprintf("%s_%s_plugin.so", pName, gv)
 
 	var repoURL url.URL
 	repoURL.Scheme = "https"

@@ -25,12 +25,98 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-type Meta struct {
-	URL                  string   `protobuf:"bytes,1,opt,name=URL,proto3" json:"URL,omitempty"`
+type TaskMeta struct {
+	URL                  string   `protobuf:"bytes,1,opt,name=URL,json=uRL,proto3" json:"URL,omitempty"`
 	Name                 string   `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Version              string   `protobuf:"bytes,3,opt,name=version,proto3" json:"version,omitempty"`
+	PluginMeta           *Meta    `protobuf:"bytes,6,opt,name=pluginMeta,proto3" json:"pluginMeta,omitempty"`
 	Enforce              bool     `protobuf:"varint,4,opt,name=enforce,proto3" json:"enforce,omitempty"`
 	Dependencies         []string `protobuf:"bytes,5,rep,name=dependencies,proto3" json:"dependencies,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *TaskMeta) Reset()      { *m = TaskMeta{} }
+func (*TaskMeta) ProtoMessage() {}
+func (*TaskMeta) Descriptor() ([]byte, []int) {
+	return fileDescriptor_22a625af4bc1cc87, []int{0}
+}
+func (m *TaskMeta) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *TaskMeta) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_TaskMeta.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *TaskMeta) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TaskMeta.Merge(m, src)
+}
+func (m *TaskMeta) XXX_Size() int {
+	return m.Size()
+}
+func (m *TaskMeta) XXX_DiscardUnknown() {
+	xxx_messageInfo_TaskMeta.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_TaskMeta proto.InternalMessageInfo
+
+func (m *TaskMeta) GetURL() string {
+	if m != nil {
+		return m.URL
+	}
+	return ""
+}
+
+func (m *TaskMeta) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *TaskMeta) GetVersion() string {
+	if m != nil {
+		return m.Version
+	}
+	return ""
+}
+
+func (m *TaskMeta) GetPluginMeta() *Meta {
+	if m != nil {
+		return m.PluginMeta
+	}
+	return nil
+}
+
+func (m *TaskMeta) GetEnforce() bool {
+	if m != nil {
+		return m.Enforce
+	}
+	return false
+}
+
+func (m *TaskMeta) GetDependencies() []string {
+	if m != nil {
+		return m.Dependencies
+	}
+	return nil
+}
+
+func (*TaskMeta) XXX_MessageName() string {
+	return "plugin.TaskMeta"
+}
+
+type Meta struct {
+	Version              string   `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -39,7 +125,7 @@ type Meta struct {
 func (m *Meta) Reset()      { *m = Meta{} }
 func (*Meta) ProtoMessage() {}
 func (*Meta) Descriptor() ([]byte, []int) {
-	return fileDescriptor_22a625af4bc1cc87, []int{0}
+	return fileDescriptor_22a625af4bc1cc87, []int{1}
 }
 func (m *Meta) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -68,20 +154,6 @@ func (m *Meta) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Meta proto.InternalMessageInfo
 
-func (m *Meta) GetURL() string {
-	if m != nil {
-		return m.URL
-	}
-	return ""
-}
-
-func (m *Meta) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
 func (m *Meta) GetVersion() string {
 	if m != nil {
 		return m.Version
@@ -89,49 +161,39 @@ func (m *Meta) GetVersion() string {
 	return ""
 }
 
-func (m *Meta) GetEnforce() bool {
-	if m != nil {
-		return m.Enforce
-	}
-	return false
-}
-
-func (m *Meta) GetDependencies() []string {
-	if m != nil {
-		return m.Dependencies
-	}
-	return nil
-}
-
 func (*Meta) XXX_MessageName() string {
 	return "plugin.Meta"
 }
 func init() {
+	proto.RegisterType((*TaskMeta)(nil), "plugin.TaskMeta")
 	proto.RegisterType((*Meta)(nil), "plugin.Meta")
 }
 
 func init() { proto.RegisterFile("plugin.proto", fileDescriptor_22a625af4bc1cc87) }
 
 var fileDescriptor_22a625af4bc1cc87 = []byte{
-	// 234 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x54, 0x8f, 0x21, 0x4f, 0x03, 0x31,
-	0x18, 0x86, 0xf7, 0x71, 0xc7, 0x60, 0xcd, 0x04, 0xa9, 0xaa, 0xfa, 0x72, 0x99, 0x3a, 0xcc, 0x4e,
-	0xf0, 0x0f, 0x40, 0xc2, 0x4c, 0x13, 0x0c, 0xa8, 0xad, 0xfb, 0x76, 0xd7, 0x64, 0x6b, 0x9b, 0x5e,
-	0x87, 0x40, 0x21, 0xf8, 0x31, 0xfc, 0x94, 0x49, 0x24, 0x92, 0xeb, 0x0c, 0x72, 0x12, 0x49, 0xae,
-	0xcb, 0x04, 0xee, 0x7d, 0x9e, 0x57, 0x3d, 0x6c, 0xec, 0xd6, 0xdb, 0x5a, 0x9b, 0xa9, 0xf3, 0x36,
-	0x58, 0x3e, 0x3c, 0xd2, 0xe4, 0x1d, 0x58, 0x3e, 0xa3, 0x30, 0xe7, 0x57, 0x2c, 0x7b, 0x94, 0x0f,
-	0x02, 0x0a, 0x28, 0x47, 0xb2, 0x9f, 0x9c, 0xb3, 0xdc, 0xcc, 0x37, 0x24, 0xce, 0x92, 0x4a, 0x9b,
-	0x0b, 0x76, 0xf1, 0x42, 0xbe, 0xd5, 0xd6, 0x88, 0x2c, 0xe9, 0x13, 0xf6, 0x0f, 0x99, 0x95, 0xf5,
-	0x8a, 0x44, 0x5e, 0x40, 0x79, 0x29, 0x4f, 0xc8, 0x27, 0x6c, 0xbc, 0x24, 0x47, 0x66, 0x49, 0x46,
-	0x69, 0x6a, 0xc5, 0x79, 0x91, 0x95, 0x23, 0xf9, 0xcf, 0xdd, 0x3e, 0x7f, 0x75, 0x38, 0x38, 0x74,
-	0x08, 0xbf, 0x1d, 0xc2, 0x5b, 0x44, 0xf8, 0x88, 0x08, 0xbb, 0x88, 0xf0, 0x19, 0x11, 0xbe, 0x23,
-	0xc2, 0x4f, 0xc4, 0xc1, 0xa1, 0xf7, 0x7b, 0x84, 0xdd, 0x1e, 0xe1, 0xe9, 0xba, 0xd6, 0xa1, 0xd9,
-	0x2e, 0xa6, 0xca, 0x6e, 0xaa, 0xbb, 0xc6, 0xeb, 0x76, 0xa6, 0xee, 0xc9, 0xbc, 0x6a, 0xaa, 0x9c,
-	0xa7, 0xd5, 0x5a, 0xd7, 0x4d, 0xa8, 0x8e, 0x8d, 0x8b, 0x61, 0x4a, 0xbe, 0xf9, 0x0b, 0x00, 0x00,
-	0xff, 0xff, 0x07, 0xb2, 0xdc, 0xa9, 0x02, 0x01, 0x00, 0x00,
+	// 274 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x54, 0x90, 0xbf, 0x4e, 0xc3, 0x30,
+	0x10, 0xc6, 0x7b, 0xa4, 0x84, 0xd6, 0x64, 0x40, 0x9e, 0x3c, 0x9d, 0xa2, 0x4c, 0x41, 0x42, 0x89,
+	0x04, 0x6f, 0x00, 0x23, 0xed, 0x62, 0xc1, 0x02, 0x53, 0x9a, 0x5e, 0x13, 0x8b, 0xd6, 0x89, 0xf2,
+	0x87, 0x81, 0x89, 0xc7, 0xe1, 0x09, 0x78, 0x86, 0x8e, 0x8c, 0x8c, 0xc4, 0x5d, 0x18, 0x3b, 0x32,
+	0xa2, 0x24, 0x44, 0xa2, 0x9b, 0xbf, 0x9f, 0xa5, 0xdf, 0x7d, 0x77, 0xcc, 0xc9, 0xd7, 0x75, 0xa2,
+	0x74, 0x90, 0x17, 0x59, 0x95, 0x71, 0xbb, 0x4f, 0xde, 0x3b, 0xb0, 0xc9, 0x5d, 0x54, 0x3e, 0xcd,
+	0xa9, 0x8a, 0xf8, 0x19, 0xb3, 0xee, 0xe5, 0x4c, 0x80, 0x0b, 0xfe, 0x54, 0x5a, 0xb5, 0x9c, 0x71,
+	0xce, 0xc6, 0x3a, 0xda, 0x90, 0x38, 0xea, 0x50, 0xf7, 0xe6, 0x82, 0x9d, 0x3c, 0x53, 0x51, 0xaa,
+	0x4c, 0x0b, 0xab, 0xc3, 0x43, 0xe4, 0x17, 0x8c, 0xf5, 0xda, 0xd6, 0x26, 0x6c, 0x17, 0xfc, 0xd3,
+	0x4b, 0x27, 0xf8, 0x9b, 0xdb, 0x32, 0xf9, 0xef, 0xbf, 0xf5, 0x90, 0x5e, 0x65, 0x45, 0x4c, 0x62,
+	0xec, 0x82, 0x3f, 0x91, 0x43, 0xe4, 0x1e, 0x73, 0x96, 0x94, 0x93, 0x5e, 0x92, 0x8e, 0x15, 0x95,
+	0xe2, 0xd8, 0xb5, 0xfc, 0xa9, 0x3c, 0x60, 0x9e, 0xcb, 0xc6, 0x83, 0x65, 0x68, 0x03, 0x07, 0x6d,
+	0xae, 0x1f, 0x3f, 0x1b, 0x1c, 0xed, 0x1b, 0x84, 0x9f, 0x06, 0xe1, 0xd5, 0x20, 0xbc, 0x19, 0x84,
+	0xad, 0x41, 0xf8, 0x30, 0x08, 0x5f, 0x06, 0xe1, 0xdb, 0xe0, 0x68, 0xdf, 0xf2, 0x1d, 0xc2, 0x76,
+	0x87, 0xf0, 0x70, 0x9e, 0xa8, 0x2a, 0xad, 0x17, 0x41, 0x9c, 0x6d, 0xc2, 0x9b, 0xb4, 0x50, 0xe5,
+	0x3c, 0xbe, 0x25, 0xfd, 0xa2, 0x28, 0xcc, 0x0b, 0x5a, 0xad, 0x55, 0x92, 0x56, 0x61, 0xbf, 0xc0,
+	0xc2, 0xee, 0xce, 0x78, 0xf5, 0x1b, 0x00, 0x00, 0xff, 0xff, 0x81, 0xe9, 0x50, 0x44, 0x56, 0x01,
+	0x00, 0x00,
 }
 
-func (this *Meta) Compare(that interface{}) int {
+func (this *TaskMeta) Compare(that interface{}) int {
 	if that == nil {
 		if this == nil {
 			return 0
@@ -139,9 +201,9 @@ func (this *Meta) Compare(that interface{}) int {
 		return 1
 	}
 
-	that1, ok := that.(*Meta)
+	that1, ok := that.(*TaskMeta)
 	if !ok {
-		that2, ok := that.(Meta)
+		that2, ok := that.(TaskMeta)
 		if ok {
 			that1 = &that2
 		} else {
@@ -174,6 +236,9 @@ func (this *Meta) Compare(that interface{}) int {
 		}
 		return 1
 	}
+	if c := this.PluginMeta.Compare(that1.PluginMeta); c != 0 {
+		return c
+	}
 	if this.Enforce != that1.Enforce {
 		if !this.Enforce {
 			return -1
@@ -199,14 +264,50 @@ func (this *Meta) Compare(that interface{}) int {
 	}
 	return 0
 }
-func (this *Meta) Equal(that interface{}) bool {
+func (this *Meta) Compare(that interface{}) int {
 	if that == nil {
-		return this == nil
+		if this == nil {
+			return 0
+		}
+		return 1
 	}
 
 	that1, ok := that.(*Meta)
 	if !ok {
 		that2, ok := that.(Meta)
+		if ok {
+			that1 = &that2
+		} else {
+			return 1
+		}
+	}
+	if that1 == nil {
+		if this == nil {
+			return 0
+		}
+		return 1
+	} else if this == nil {
+		return -1
+	}
+	if this.Version != that1.Version {
+		if this.Version < that1.Version {
+			return -1
+		}
+		return 1
+	}
+	if c := bytes.Compare(this.XXX_unrecognized, that1.XXX_unrecognized); c != 0 {
+		return c
+	}
+	return 0
+}
+func (this *TaskMeta) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*TaskMeta)
+	if !ok {
+		that2, ok := that.(TaskMeta)
 		if ok {
 			that1 = &that2
 		} else {
@@ -227,6 +328,9 @@ func (this *Meta) Equal(that interface{}) bool {
 	if this.Version != that1.Version {
 		return false
 	}
+	if !this.PluginMeta.Equal(that1.PluginMeta) {
+		return false
+	}
 	if this.Enforce != that1.Enforce {
 		return false
 	}
@@ -243,17 +347,60 @@ func (this *Meta) Equal(that interface{}) bool {
 	}
 	return true
 }
+func (this *Meta) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*Meta)
+	if !ok {
+		that2, ok := that.(Meta)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.Version != that1.Version {
+		return false
+	}
+	if !bytes.Equal(this.XXX_unrecognized, that1.XXX_unrecognized) {
+		return false
+	}
+	return true
+}
+func (this *TaskMeta) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 10)
+	s = append(s, "&plugin.TaskMeta{")
+	s = append(s, "URL: "+fmt.Sprintf("%#v", this.URL)+",\n")
+	s = append(s, "Name: "+fmt.Sprintf("%#v", this.Name)+",\n")
+	s = append(s, "Version: "+fmt.Sprintf("%#v", this.Version)+",\n")
+	if this.PluginMeta != nil {
+		s = append(s, "PluginMeta: "+fmt.Sprintf("%#v", this.PluginMeta)+",\n")
+	}
+	s = append(s, "Enforce: "+fmt.Sprintf("%#v", this.Enforce)+",\n")
+	s = append(s, "Dependencies: "+fmt.Sprintf("%#v", this.Dependencies)+",\n")
+	if this.XXX_unrecognized != nil {
+		s = append(s, "XXX_unrecognized:"+fmt.Sprintf("%#v", this.XXX_unrecognized)+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
 func (this *Meta) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := make([]string, 0, 9)
+	s := make([]string, 0, 5)
 	s = append(s, "&plugin.Meta{")
-	s = append(s, "URL: "+fmt.Sprintf("%#v", this.URL)+",\n")
-	s = append(s, "Name: "+fmt.Sprintf("%#v", this.Name)+",\n")
 	s = append(s, "Version: "+fmt.Sprintf("%#v", this.Version)+",\n")
-	s = append(s, "Enforce: "+fmt.Sprintf("%#v", this.Enforce)+",\n")
-	s = append(s, "Dependencies: "+fmt.Sprintf("%#v", this.Dependencies)+",\n")
 	if this.XXX_unrecognized != nil {
 		s = append(s, "XXX_unrecognized:"+fmt.Sprintf("%#v", this.XXX_unrecognized)+",\n")
 	}
@@ -268,7 +415,7 @@ func valueToGoStringPlugin(v interface{}, typ string) string {
 	pv := reflect.Indirect(rv).Interface()
 	return fmt.Sprintf("func(v %v) *%v { return &v } ( %#v )", typ, typ, pv)
 }
-func (m *Meta) Marshal() (dAtA []byte, err error) {
+func (m *TaskMeta) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -278,12 +425,12 @@ func (m *Meta) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *Meta) MarshalTo(dAtA []byte) (int, error) {
+func (m *TaskMeta) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *Meta) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *TaskMeta) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -291,6 +438,18 @@ func (m *Meta) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	if m.XXX_unrecognized != nil {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if m.PluginMeta != nil {
+		{
+			size, err := m.PluginMeta.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintPlugin(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x32
 	}
 	if len(m.Dependencies) > 0 {
 		for iNdEx := len(m.Dependencies) - 1; iNdEx >= 0; iNdEx-- {
@@ -335,6 +494,40 @@ func (m *Meta) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *Meta) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Meta) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Meta) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	if len(m.Version) > 0 {
+		i -= len(m.Version)
+		copy(dAtA[i:], m.Version)
+		i = encodeVarintPlugin(dAtA, i, uint64(len(m.Version)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintPlugin(dAtA []byte, offset int, v uint64) int {
 	offset -= sovPlugin(v)
 	base := offset
@@ -346,8 +539,8 @@ func encodeVarintPlugin(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func NewPopulatedMeta(r randyPlugin, easy bool) *Meta {
-	this := &Meta{}
+func NewPopulatedTaskMeta(r randyPlugin, easy bool) *TaskMeta {
+	this := &TaskMeta{}
 	this.URL = string(randStringPlugin(r))
 	this.Name = string(randStringPlugin(r))
 	this.Version = string(randStringPlugin(r))
@@ -357,8 +550,20 @@ func NewPopulatedMeta(r randyPlugin, easy bool) *Meta {
 	for i := 0; i < v1; i++ {
 		this.Dependencies[i] = string(randStringPlugin(r))
 	}
+	if r.Intn(5) != 0 {
+		this.PluginMeta = NewPopulatedMeta(r, easy)
+	}
 	if !easy && r.Intn(10) != 0 {
-		this.XXX_unrecognized = randUnrecognizedPlugin(r, 6)
+		this.XXX_unrecognized = randUnrecognizedPlugin(r, 7)
+	}
+	return this
+}
+
+func NewPopulatedMeta(r randyPlugin, easy bool) *Meta {
+	this := &Meta{}
+	this.Version = string(randStringPlugin(r))
+	if !easy && r.Intn(10) != 0 {
+		this.XXX_unrecognized = randUnrecognizedPlugin(r, 2)
 	}
 	return this
 }
@@ -435,7 +640,7 @@ func encodeVarintPopulatePlugin(dAtA []byte, v uint64) []byte {
 	dAtA = append(dAtA, uint8(v))
 	return dAtA
 }
-func (m *Meta) Size() (n int) {
+func (m *TaskMeta) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -462,6 +667,26 @@ func (m *Meta) Size() (n int) {
 			n += 1 + l + sovPlugin(uint64(l))
 		}
 	}
+	if m.PluginMeta != nil {
+		l = m.PluginMeta.Size()
+		n += 1 + l + sovPlugin(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *Meta) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Version)
+	if l > 0 {
+		n += 1 + l + sovPlugin(uint64(l))
+	}
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
 	}
@@ -474,16 +699,28 @@ func sovPlugin(x uint64) (n int) {
 func sozPlugin(x uint64) (n int) {
 	return sovPlugin(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (this *Meta) String() string {
+func (this *TaskMeta) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&Meta{`,
+	s := strings.Join([]string{`&TaskMeta{`,
 		`URL:` + fmt.Sprintf("%v", this.URL) + `,`,
 		`Name:` + fmt.Sprintf("%v", this.Name) + `,`,
 		`Version:` + fmt.Sprintf("%v", this.Version) + `,`,
 		`Enforce:` + fmt.Sprintf("%v", this.Enforce) + `,`,
 		`Dependencies:` + fmt.Sprintf("%v", this.Dependencies) + `,`,
+		`PluginMeta:` + strings.Replace(this.PluginMeta.String(), "Meta", "Meta", 1) + `,`,
+		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *Meta) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&Meta{`,
+		`Version:` + fmt.Sprintf("%v", this.Version) + `,`,
 		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
@@ -497,7 +734,7 @@ func valueToStringPlugin(v interface{}) string {
 	pv := reflect.Indirect(rv).Interface()
 	return fmt.Sprintf("*%v", pv)
 }
-func (m *Meta) Unmarshal(dAtA []byte) error {
+func (m *TaskMeta) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -520,10 +757,10 @@ func (m *Meta) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: Meta: wiretype end group for non-group")
+			return fmt.Errorf("proto: TaskMeta: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: Meta: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: TaskMeta: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -673,6 +910,128 @@ func (m *Meta) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			m.Dependencies = append(m.Dependencies, string(dAtA[iNdEx:postIndex]))
+			iNdEx = postIndex
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PluginMeta", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPlugin
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthPlugin
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthPlugin
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			if m.PluginMeta == nil {
+				m.PluginMeta = &Meta{}
+			}
+			if err := m.PluginMeta.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipPlugin(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthPlugin
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthPlugin
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Meta) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowPlugin
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Meta: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Meta: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Version", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowPlugin
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthPlugin
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthPlugin
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Version = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex

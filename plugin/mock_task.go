@@ -5,7 +5,7 @@ import (
 )
 
 type MockTask struct {
-	Meta *Meta `json:"meta,omitempty"`
+	Meta *TaskMeta `json:"meta,omitempty"`
 }
 
 func (m *MockTask) Evaluate(ctx context.Context) (*ResultChange, error) {
