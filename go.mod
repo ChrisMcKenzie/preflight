@@ -6,7 +6,7 @@ require (
 	github.com/funkygao/golib v0.0.0-20180314131852-90d4905c1961
 	github.com/gogo/protobuf v1.3.2
 	github.com/goombaio/dag v0.0.0-20181006234417-a8874b1f72ff
-	github.com/hashicorp/go-getter v1.4.1
+	github.com/hashicorp/go-getter v1.5.11
 	github.com/hashicorp/hcl v1.0.0
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/spf13/cobra v0.0.6
