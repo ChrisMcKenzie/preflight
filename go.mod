@@ -1,7 +1,7 @@
 module github.com/ChrisMcKenzie/preflight
 
 require (
-	github.com/aws/aws-sdk-go v1.15.78
+	github.com/aws/aws-sdk-go v1.34.0
 	github.com/funkygao/assert v0.0.0-20160929004900-4a267e33bc79 // indirect
 	github.com/funkygao/golib v0.0.0-20180314131852-90d4905c1961
 	github.com/gogo/protobuf v1.3.2
